@@ -42,24 +42,32 @@ public class Server {
     return this.running;
   }
 
-  public boolean start() {
+  public boolean start(boolean multiThreaded) {
     boolean started = false;
 
     if (!this.isRunning()) {
         started = this.connect();
         this.running = true;
     }
-    while (this.running) {
-      try {
-        Socket socket = serverSocket.accept();
-        ClientHandlerMultithreaded clientHandler = new ClientHandlerMultithreaded(socket);
-        new Thread(clientHandler).start();
-      } catch (IOException ioException) {
-        System.out.println(ioException.getStackTrace());
-        this.running = false;
+    new Thread(() -> {
+      while (this.running) {
+        try {
+          Socket socket = serverSocket.accept();
+  
+          if (multiThreaded) {
+            ClientHandlerMultithreaded clientHandler = new ClientHandlerMultithreaded(socket);
+            new Thread(clientHandler).start();
+          } else {
+            ClientHandler clientHandler = new ClientHandler(socket);
+            clientHandler.handleMessage();
+          }
+        } catch (IOException ioException) {
+          System.out.println(ioException.getStackTrace());
+          this.running = false;
+        }
+  
       }
-
-    }
+    }).start();
     return started;
   }
 

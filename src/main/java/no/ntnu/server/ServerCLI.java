@@ -28,6 +28,8 @@ public class ServerCLI {
     System.out.println("Enter command (help for commands): ");
     String line = scanner.nextLine();
     String[] sections = line.split(" ");
+    
+
 
     ServerCLICommand command = ServerCLICommand.fromString(sections[0]);
 
@@ -46,7 +48,7 @@ public class ServerCLI {
         break;
 
       case START:
-        this.startServer();
+        this.startServer(sections[1]);
         break;
 
       case STOP:
@@ -73,8 +75,10 @@ public class ServerCLI {
     System.out.println("Exiting server");
   }
 
-  private void startServer() {
-    if (this.server.start()) {
+  private void startServer(String arg1) {
+    boolean multiThreaded = Boolean.parseBoolean(arg1);
+
+    if (this.server.start(multiThreaded)) {
       System.out.println("Server started");
     } else {
       System.out.println("Failed to start server");
