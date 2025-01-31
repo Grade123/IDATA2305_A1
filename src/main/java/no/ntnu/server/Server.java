@@ -41,12 +41,13 @@ public class Server {
   }
 
   public boolean start() {
-    boolean started = this.connect();
+    boolean started = false;
 
-    if (started) {
-      this.running = true;
+    if (!this.isRunning()) {
+        started = this.connect();
+        this.running = true;
     }
-
+    
     return started;
   }
 
