@@ -63,6 +63,9 @@ public class ClientHandler {
         }
         response = num1 / num2;
         break;
+      case "F":
+        response = num1 % num2;
+        break;
       default:
         send("Invalid operator");
     }
