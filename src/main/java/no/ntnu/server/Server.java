@@ -23,10 +23,20 @@ public class Server {
     return success;
   }
 
+  public void disconnect() {
+    try {
+      serverSocket.close();
+    } catch (Exception e) {
+      // TODO: handle exception
+    }
+  }
+
   public boolean start() {
     return this.connect();
   }
 
-  public void stop() {}
+  public void stop() {
+    this.disconnect();
+  }
 
 }
