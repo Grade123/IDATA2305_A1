@@ -1,21 +1,26 @@
 package no.ntnu.client;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Scanner;
+import no.ntnu.constants.Config;
 
 public class ClientApplication {
   boolean running = false;
-  private Scanner scanner = new Scanner(System.in);
 
   public static void main(String[] args) {
     ClientApplication app = new ClientApplication();
-    //app.run();
+    app.run();
   }
 
   private void run() {
     running = true;
+
     while (running) {
       printMenu();
-
+      handleUserInput(getUserInt());
     }
   }
 
@@ -26,13 +31,114 @@ public class ClientApplication {
     System.out.println("4: Division");
     System.out.println("5: Modulo");
     System.out.println("6: Specified amount of simultaneous requests");
+    System.out.println("0: Exit");
   }
 
-  private void getUserInt() {
+  private int getUserInt() {
     try {
-      int input = scanner.nextInt();
+      Scanner scanner = new Scanner(System.in);
+      return scanner.nextInt();
     } catch (Exception e) {
-      System.out.println("Invalid input");
+      System.out.println("Invalid input, input must be an integer");
+      return -1;
     }
+  }
+
+  private void handleUserInput(int input) {
+    if (input != -1) {
+      switch (input) {
+        case 1:
+          System.out.println("Addition");
+          handleCommand("A");
+          break;
+        case 2:
+          System.out.println("Subtraction");
+          handleCommand("S");
+          break;
+        case 3:
+          System.out.println("Multiplication");
+          handleCommand("M");
+          break;
+        case 4:
+          System.out.println("Division");
+          handleCommand("D");
+          break;
+        case 5:
+          System.out.println("Modulo");
+          handleCommand("F");
+          break;
+        case 6:
+          System.out.println("Specified amount of single threaded requests");
+          sendSpecifiedAmountOfRequests();
+          break;
+        case 0:
+          System.out.println("Exit");
+          running = false;
+          break;
+        default:
+          System.out.println("Invalid input");
+          break;
+      }
+    }
+  }
+
+  private void sendSpecifiedAmountOfRequests() {
+    System.out.println("Input amount of requests:");
+    int amount = getUserInt();
+    while (amount == -1) {
+      amount = getUserInt();
+    }
+    for (int i = 0; i < amount; i++) {
+      Thread thread = new Thread(() -> sendCommand("A", 50, 30));
+      thread.start();
+    }
+  }
+
+  private void handleCommand(String command) {
+    int firstParam = -1;
+    System.out.println("Input first parameter:");
+    firstParam = getUserInt();
+    while (firstParam == -1) {
+      firstParam = getUserInt();
+    }
+    int secondParam = -1;
+    System.out.println("Input second parameter:");
+    secondParam = getUserInt();
+    while (secondParam == -1) {
+      secondParam = getUserInt();
+    }
+
+    sendCommand(command, firstParam, secondParam);
+  }
+
+  private void sendCommand(String command, int firstParam, int secondParam) {
+    Socket socket = startConnection();
+    if (socket != null) {
+      try {
+        PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        String message = command + " " + firstParam + " " + secondParam;
+        writer.println(message);
+        System.out.println("Sent command: " + message);
+        String response = reader.readLine();
+        System.out.println("Response: " + response);
+        socket.close();
+      } catch (Exception e) {
+        System.out.println("Error sending command: " + e.getMessage());
+      }
+    }
+  }
+
+  private Socket startConnection() {
+    Socket socket = null;
+    System.out.println("Attempting to connect to server");
+      try {
+        Thread.sleep(1000);
+        socket = new Socket(Config.HOST, Config.PORT);
+        System.out.println("Connected to server");
+      } catch (Exception e) {
+        System.out.println("Could not connect to server");
+      }
+    return socket;
   }
 }
