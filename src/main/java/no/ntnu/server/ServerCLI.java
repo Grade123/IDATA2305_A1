@@ -26,27 +26,30 @@ public class ServerCLI {
     boolean shouldClose = false;
 
     System.out.println("Enter command (help for commands): ");
+    String line = scanner.nextLine();
+    String[] sections = line.split(" ");
 
-    String command = scanner.nextLine();
+    ServerCLICommand command = ServerCLICommand.fromString(sections[0]);
+
     switch (command) {
-      case "exit":
+      case EXIT:
         this.showExiting();
         shouldClose = true;
         break;
       
-      case "help":
+      case HELP:
         this.showHelp();
         break;
 
-      case "running":
+      case RUNNING:
         this.showIsRunning();
         break;
 
-      case "start":
+      case START:
         this.startServer();
         break;
 
-      case "stop":
+      case STOP:
         this.stopServer();
         break;
 
@@ -60,10 +63,10 @@ public class ServerCLI {
 
   private void showHelp() {
     System.err.println("Available commands:");
-    System.err.println("exit: Close the server");
-    System.err.println("help: Show this help message");
-    System.err.println("start: Start the server");
-    System.err.println("stop: Stop the server");
+    
+    for (ServerCLICommand command : ServerCLICommand.values()) {
+      System.out.println(command.getCommand() + ": " + command.getDescription());
+    }
   }
 
   private void showExiting() {

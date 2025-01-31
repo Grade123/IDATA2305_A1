@@ -51,12 +51,13 @@ public class Server {
   }
 
   public boolean stop() {
-    boolean stopped = this.disconnect();
+    boolean stopped = false;
 
-    if (stopped) {
-      this.running = false;
+    if (this.running) {
+      stopped = this.disconnect();
+
+      this.running = !stopped;
     }
-
     return stopped;
   }
 
