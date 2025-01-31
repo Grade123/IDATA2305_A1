@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import no.ntnu.constants.Config;
 
-public class ServerApplication {
+public class ServerCLI {
   private Scanner scanner;
   private Server server;
 
@@ -81,10 +81,10 @@ public class ServerApplication {
   }
 
   public static void main(String[] args) {
-    ServerApplication server = new ServerApplication();
+    ServerCLI cli = new ServerCLI();
 
     try {
-      server.start();
+      cli.start();
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
