@@ -42,7 +42,7 @@ public class Server {
     return this.running;
   }
 
-  public boolean start() {
+  public boolean start(boolean multiThreaded) {
     boolean started = false;
 
     if (!this.isRunning()) {
