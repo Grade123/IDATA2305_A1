@@ -1,5 +1,5 @@
 package no.ntnu.server;
 
-public class Server {
+public class ClientHandler {
   
 }
