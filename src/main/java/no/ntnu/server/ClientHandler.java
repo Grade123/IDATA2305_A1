@@ -7,8 +7,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientHandler {
-  private PrintWriter writer;
-  private BufferedReader reader;
+  private final PrintWriter writer;
+  private final BufferedReader reader;
 
   public ClientHandler(Socket socket) throws IOException {
 
