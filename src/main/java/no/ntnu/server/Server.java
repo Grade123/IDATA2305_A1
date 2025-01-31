@@ -1,6 +1,8 @@
 package no.ntnu.server;
 
+import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
   private ServerSocket serverSocket;
@@ -46,7 +48,17 @@ public class Server {
     if (started) {
       this.running = true;
     }
+    while (this.running) {
+      try {
+        Socket socket = serverSocket.accept();
+        ClientHandlerMultithreaded clientHandler = new ClientHandlerMultithreaded(socket);
+        new Thread(clientHandler).start();
+      } catch (IOException ioException) {
+        System.out.println(ioException.getStackTrace());
+        this.running = false;
+      }
 
+    }
     return started;
   }
 
