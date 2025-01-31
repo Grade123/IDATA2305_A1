@@ -52,8 +52,14 @@ public class Server {
     while (this.running) {
       try {
         Socket socket = serverSocket.accept();
-        ClientHandlerMultithreaded clientHandler = new ClientHandlerMultithreaded(socket);
-        new Thread(clientHandler).start();
+
+        if (multiThreaded) {
+          ClientHandlerMultithreaded clientHandler = new ClientHandlerMultithreaded(socket);
+          new Thread(clientHandler).start();
+        } else {
+          ClientHandler clientHandler = new ClientHandler(socket);
+          clientHandler.handleMessage();
+        }
       } catch (IOException ioException) {
         System.out.println(ioException.getStackTrace());
         this.running = false;
