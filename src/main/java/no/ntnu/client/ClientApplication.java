@@ -8,7 +8,7 @@ public class ClientApplication {
 
   public static void main(String[] args) {
     ClientApplication app = new ClientApplication();
-    app.run();
+    //app.run();
   }
 
   private void run() {
