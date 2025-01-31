@@ -38,14 +38,16 @@ public class ServerCLI {
         this.showHelp();
         break;
 
+      case "running":
+        this.showIsRunning();
+        break;
+
       case "start":
-        showStarting();
-        this.server.start();
+        this.startServer();
         break;
 
       case "stop":
-        showStopping();
-        this.server.stop();
+        this.stopServer();
         break;
 
       default:
@@ -68,18 +70,33 @@ public class ServerCLI {
     System.out.println("Exiting server");
   }
 
-  private void showStarting() {
-    System.out.println("Starting server");
+  private void startServer() {
+    if (this.server.start()) {
+      System.out.println("Server started");
+    } else {
+      System.out.println("Failed to start server");
+    }
   }
 
-  private void showStopping() {
-    System.out.println("Stopping server");
+  private void stopServer() {
+    if (this.server.stop()) {
+      System.out.println("Server stopped");
+    } else {
+      System.out.println("Failed to stop server");
+    }
   }
 
   private void showInvalidCommand() {
     System.out.println("Invalid command");
   }
 
+  private void showIsRunning() {
+    if (this.server.isRunning()) {
+      System.out.println("Server is running");
+    } else {
+      System.out.println("Server is not running");
+    }
+  }
   public static void main(String[] args) {
     ServerCLI cli = new ServerCLI();
 
