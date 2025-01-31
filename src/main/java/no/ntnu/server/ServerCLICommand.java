@@ -4,7 +4,7 @@ public enum ServerCLICommand {
   EXIT("exit", "Stop the application, this will also stop the server"),
   HELP("help", "Show all available commands"),
   RUNNING("running", "Show if the server is running"),
-  START("start", "Start the server"),
+  START("start", "Start the server, Multi-threaded: true/false"),
   STOP("stop", "Stop the server");
 
   private final String command;

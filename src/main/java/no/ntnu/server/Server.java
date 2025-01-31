@@ -49,23 +49,25 @@ public class Server {
         started = this.connect();
         this.running = true;
     }
-    while (this.running) {
-      try {
-        Socket socket = serverSocket.accept();
-
-        if (multiThreaded) {
-          ClientHandlerMultithreaded clientHandler = new ClientHandlerMultithreaded(socket);
-          new Thread(clientHandler).start();
-        } else {
-          ClientHandler clientHandler = new ClientHandler(socket);
-          clientHandler.handleMessage();
+    new Thread(() -> {
+      while (this.running) {
+        try {
+          Socket socket = serverSocket.accept();
+  
+          if (multiThreaded) {
+            ClientHandlerMultithreaded clientHandler = new ClientHandlerMultithreaded(socket);
+            new Thread(clientHandler).start();
+          } else {
+            ClientHandler clientHandler = new ClientHandler(socket);
+            clientHandler.handleMessage();
+          }
+        } catch (IOException ioException) {
+          System.out.println(ioException.getStackTrace());
+          this.running = false;
         }
-      } catch (IOException ioException) {
-        System.out.println(ioException.getStackTrace());
-        this.running = false;
+  
       }
-
-    }
+    }).start();
     return started;
   }
 
