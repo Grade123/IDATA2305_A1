@@ -9,10 +9,8 @@ import java.net.Socket;
 public class ClientHandler {
   private PrintWriter writer;
   private BufferedReader reader;
-  private Socket socket;
 
   public ClientHandler(Socket socket) throws IOException {
-    this.socket = socket;
 
     this.writer = new PrintWriter(socket.getOutputStream(), true);
     this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -49,16 +47,16 @@ public class ClientHandler {
 
 
     switch (operator) {
-      case "ADD":
+      case "A":
         response = num1 + num2;
         break;
-      case "SUB":
+      case "S":
         response = num1 - num2;
         break;
-      case "MUL":
+      case "M":
         response = num1 * num2;
         break;
-      case "DIV":
+      case "D":
         if (num2 == 0) {
           send("Cannot divide by zero");
           throw new IllegalArgumentException("Cannot divide by zero");
