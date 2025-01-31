@@ -7,14 +7,36 @@ import java.net.Socket;
 import java.util.Scanner;
 import no.ntnu.constants.Config;
 
+/**
+ * CLI for client application
+ * 
+ * @author Kristian Garder
+ * @since 31/1/2025
+ */
 public class ClientApplication {
   boolean running = false;
 
+  /**
+   * Main method for starting the application
+   *
+   * @param args command line arguments
+   */
   public static void main(String[] args) {
     ClientApplication app = new ClientApplication();
     app.run();
   }
 
+  /**
+   * Runs the main loop of the application
+   * 
+   * Loop:
+   * 1. Print menu
+   * 2. Get user input
+   * 3. Handle user input
+   * 4. Repeat
+   * 
+   * If user input is invalid, print error message and repeat
+   */
   private void run() {
     running = true;
 
@@ -24,6 +46,9 @@ public class ClientApplication {
     }
   }
 
+  /**
+   * Prints the menu
+   */
   private void printMenu() {
     System.out.println("1: Addition");
     System.out.println("2: Subtraction");
@@ -34,6 +59,11 @@ public class ClientApplication {
     System.out.println("0: Exit");
   }
 
+  /**
+   * Get an integer from the user
+   * 
+   * @return user input as an integer, returns -1 if input is invalid
+   */
   private int getUserInt() {
     try {
       Scanner scanner = new Scanner(System.in);
@@ -44,6 +74,11 @@ public class ClientApplication {
     }
   }
 
+  /**
+   * Handles user input
+   * 
+   * @param input user input, int reperesenting the menu choice from the user
+   */
   private void handleUserInput(int input) {
     if (input != -1) {
       switch (input) {
@@ -82,6 +117,9 @@ public class ClientApplication {
     }
   }
 
+  /**
+   * Sends a specified amount of requests to the server
+   */
   private void sendSpecifiedAmountOfRequests() {
     System.out.println("Input amount of requests:");
     int amount = getUserInt();
@@ -94,6 +132,11 @@ public class ClientApplication {
     }
   }
 
+  /**
+   * Handles a command
+   * 
+   * @param command the command to send to the server
+   */
   private void handleCommand(String command) {
     int firstParam = -1;
     System.out.println("Input first parameter:");
@@ -111,6 +154,13 @@ public class ClientApplication {
     sendCommand(command, firstParam, secondParam);
   }
 
+  /**
+   * Sends a command to the server
+   * 
+   * @param command the command to send to the server
+   * @param firstParam the first parameter to send to the server
+   * @param secondParam the second parameter to send to the server
+   */
   private void sendCommand(String command, int firstParam, int secondParam) {
     Socket socket = startConnection();
     if (socket != null) {
@@ -129,6 +179,11 @@ public class ClientApplication {
     }
   }
 
+  /**
+   * Starts a connection to the server
+   * 
+   * @return the socket if connection was successful, null otherwise
+   */
   private Socket startConnection() {
     Socket socket = null;
     System.out.println("Attempting to connect to server");
