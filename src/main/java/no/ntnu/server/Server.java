@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 
 public class Server {
   private ServerSocket serverSocket;
+  private boolean running = false;
   private final int PORT;
 
   public Server(int PORT) {
@@ -23,20 +24,40 @@ public class Server {
     return success;
   }
 
-  public void disconnect() {
+  private boolean disconnect() {
+    boolean success = true;
     try {
       serverSocket.close();
     } catch (Exception e) {
-      // TODO: handle exception
+      System.out.println(e.getMessage());
+      success = false;
     }
+
+    return success;
+  }
+
+  public boolean isRunning() {
+    return this.running;
   }
 
   public boolean start() {
-    return this.connect();
+    boolean started = this.connect();
+
+    if (started) {
+      this.running = true;
+    }
+
+    return started;
   }
 
-  public void stop() {
-    this.disconnect();
+  public boolean stop() {
+    boolean stopped = this.disconnect();
+
+    if (stopped) {
+      this.running = false;
+    }
+
+    return stopped;
   }
 
 }
