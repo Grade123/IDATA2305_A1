@@ -202,7 +202,6 @@ public class ClientApplication {
     Socket socket = null;
     System.out.println("Attempting to connect to server");
       try {
-        Thread.sleep(1000);
         socket = new Socket(Config.HOST, Config.PORT);
         System.out.println("Connected to server");
       } catch (Exception e) {

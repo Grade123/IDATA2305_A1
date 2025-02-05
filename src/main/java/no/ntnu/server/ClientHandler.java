@@ -77,6 +77,7 @@ public class ClientHandler {
     double num1;
     double num2;
     try {
+      Thread.sleep(200);
       String[] parts = message.split(" ");
       operator = parts[0];
       num1 = Double.parseDouble(parts[1]);
