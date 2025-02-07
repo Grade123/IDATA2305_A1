@@ -18,10 +18,17 @@ running.
 - Maven 3.8.1
 
 # Performance comparison
+Our test was executed with 50 requests. During the test we observed the following results:
 
-## Single threaded
 
-## Multi threaded
+**Single threaded:**
+10.2s
+
+**Multi threaded:**
+0.22s
+
+For demo, see the provided video.
+
 
 # Contributions
 - Server (Stian)
