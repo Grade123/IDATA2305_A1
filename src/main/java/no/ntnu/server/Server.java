@@ -19,7 +19,6 @@ public class Server {
     try {
       serverSocket = new ServerSocket(this.port);
     } catch (Exception e) {
-      System.out.println(e.getMessage());
       success = false;
     }
 
