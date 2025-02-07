@@ -27,8 +27,9 @@ Our test was executed with 50 requests. During the test we observed the followin
 **Multi threaded:**
 0.22s
 
-For demo, see the provided video.
+During our test we implemented a delay to simulate a much heavier calculation. Our result proves that the server running multi-threaded can process a lot of requests much more efficiently than the server running single-threaded.
 
+*For demo, see the provided video*
 
 # Contributions
 - Server (Stian)
